@@ -7,11 +7,13 @@ const target = path.join(__dirname + '/files-copy');
 
 fsProm.mkdir(target, { recursive: false }).then(() => {
   console.log(`Папка 'files-copy' была создана`);
+  copyDir();
 }).catch(() => {
   console.log('Папка уже существует');
 });
 
-fsProm.readdir(source)
+function copyDir() {
+  fsProm.readdir(source)
   .then(files => {
     for (let file of files) {
       fsProm.copyFile(source + '/' + file, target + '/' + file);
@@ -21,6 +23,8 @@ fsProm.readdir(source)
   .catch(err => {
     console.log(err);
   })
+}
+
  
 
 
