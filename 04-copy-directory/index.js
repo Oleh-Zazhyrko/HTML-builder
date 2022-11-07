@@ -24,8 +24,3 @@ function copyDir() {
     console.log(err);
   })
 }
-
- 
-
-
-
