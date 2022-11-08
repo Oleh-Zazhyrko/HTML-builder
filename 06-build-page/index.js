@@ -60,51 +60,31 @@ fs.writeFile(
   }
 )
 
-let files = fs.readdirSync(sourceCss);
-
-files.forEach(file => {
-  fs.stat(`${sourceCss}` + '/' + `${file}`, (err, result) => {
-    if (err) throw err;
-    if (result.isFile() && file.split('.')[1] !== 'css') {
-      console.log(`${file} is not style file`);
-    } else {      
-      fs.readFile(sourceCss + '/' + file, 'utf-8', (error, data) => {
-        if (error) return console.error(error.message);
-        fs.appendFile(
-          path.join(__dirname, 'project-dist', 'style.css'),
-          data,
-          (err) => {
-            if (err) throw err;
-          }
-        )
-      });
-    }
-  })
+fs.readdir(sourceCss, (err, files) => {
+  if (err)
+    console.log(err);
+  else {
+    files.forEach(file => {
+      fs.stat(`${sourceCss}` + '/' + `${file}`, (err, result) => {
+        if (err) throw err;
+        if (result.isFile() && file.split('.')[1] !== 'css') {
+          console.log(`${file} is not style file`);
+        } else {      
+          fs.readFile(sourceCss + '/' + file, 'utf-8', (error, data) => {
+            if (error) return console.error(error.message);
+            fs.appendFile(
+              path.join(__dirname, 'project-dist', 'style.css'),
+              data,
+              (err) => {
+                if (err) throw err;
+              }
+            )
+          });
+        }
+      })
+    })
+  }
 })
-
-// fs.readdir(sourceCss, (err, file) => {
-//   if (err)
-//     console.log(err);
-//   else {
-//     fs.stat(`${sourceCss}` + '/' + `${file}`, (err, result) => {
-//       if (err) throw err;
-//       if (result.isFile() && file.split('.')[1] !== 'css') {
-//         console.log(`${file} is not style file`);
-//       } else {      
-//         fs.readFile(sourceCss + '/' + file, 'utf-8', (error, data) => {
-//           if (error) return console.error(error.message);
-//           fs.appendFile(
-//             path.join(__dirname, 'project-dist', 'style.css'),
-//             data,
-//             (err) => {
-//               if (err) throw err;
-//             }
-//           )
-//         });
-//       }
-//     })
-//   }
-// })
 
 // Copy assets folder
 
