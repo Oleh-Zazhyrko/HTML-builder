@@ -12,24 +12,51 @@ fs.writeFile(
   }
 )
 
-let files = fs.readdirSync(source);
+// let files = fs.readdirSync(source);
 
-files.forEach(file => {
-  fs.stat(`${source}` + '/' + `${file}`, (err, result) => {
-    if (err) throw err;
-    if (result.isFile() && file.split('.')[1] !== 'css') {
-      console.log(`${file} is not style file`);
-    } else {      
-      fs.readFile(source + '/' + file, 'utf-8', (error, data) => {
-        if (error) return console.error(error.message);        
-        fs.appendFile(
-          path.join(__dirname, 'project-dist', 'bundle.css'),
-          data,
-          (err) => {
-            if (err) throw err;
-          }
-        )
-      });
-    }
-  })
+// files.forEach(file => {
+//   fs.stat(`${source}` + '/' + `${file}`, (err, result) => {
+//     if (err) throw err;
+//     if (result.isFile() && file.split('.')[1] !== 'css') {
+//       console.log(`${file} is not style file`);
+//     } else {      
+//       fs.readFile(source + '/' + file, 'utf-8', (error, data) => {
+//         if (error) return console.error(error.message);        
+//         fs.appendFile(
+//           path.join(__dirname, 'project-dist', 'bundle.css'),
+//           data,
+//           (err) => {
+//             if (err) throw err;
+//           }
+//         )
+//       });
+//     }
+//   })
+// })
+
+
+fs.readdir(source, (err, files) => {
+  if (err)
+    console.log(err);
+  else {
+    files.forEach(file => {
+      fs.stat(`${source}` + '/' + `${file}`, (err, result) => {
+        if (err) throw err;
+        if (result.isFile() && file.split('.')[1] !== 'css') {
+          console.log(`${file} is not style file`);
+        } else {      
+          fs.readFile(source + '/' + file, 'utf-8', (error, data) => {
+            if (error) return console.error(error.message);        
+            fs.appendFile(
+              path.join(__dirname, 'project-dist', 'bundle.css'),
+              data,
+              (err) => {
+                if (err) throw err;
+              }
+            )
+          });
+        }
+      })
+    })
+  }
 })
