@@ -10,6 +10,7 @@ fsProm.mkdir(target, { recursive: false }).then(() => {
   copyDir();
 }).catch(() => {
   console.log('Папка уже существует');
+  copyDir();
 });
 
 function copyDir() {
